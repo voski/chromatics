@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Chromatics/Chromatics.iml" filepath="$PROJECT_DIR$/Chromatics/Chromatics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chromatics.iml" filepath="$PROJECT_DIR$/chromatics.iml" />
+    </modules>
+  </component>
+</project>
