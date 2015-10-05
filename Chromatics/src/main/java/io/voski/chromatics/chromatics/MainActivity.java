@@ -34,11 +34,11 @@ public class MainActivity extends Activity {
 
     mTestBtn = (Button) findViewById(R.id.btn_1);
     mEnabledInput = (EditText) findViewById(R.id.btn_1_enabled);
-    mPressedInput = (EditText) findViewById(R.id.btn_1_disabled);
-    mDisabledInput = (EditText) findViewById(R.id.btn_1_pressed);
+    mPressedInput = (EditText) findViewById(R.id.btn_1_pressed);
+    mDisabledInput = (EditText) findViewById(R.id.btn_1_disabled);
     mEnabledTextInput = (EditText) findViewById(R.id.btn_1_enabled_text);
-    mPressedTextInput = (EditText) findViewById(R.id.btn_1_disabled_text);
-    mDisabledTextInput = (EditText) findViewById(R.id.btn_1_pressed_text);
+    mPressedTextInput = (EditText) findViewById(R.id.btn_1_pressed_text);
+    mDisabledTextInput = (EditText) findViewById(R.id.btn_1_disabled_text);
     mCheckbox = (CheckBox) findViewById(R.id.btn_1_state);
 
     mCheckbox.setChecked(true);
