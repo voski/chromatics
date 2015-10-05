@@ -23,6 +23,9 @@ public class MainActivity extends Activity {
   EditText mEnabledInput;
   EditText mDisabledInput;
   EditText mPressedInput;
+  EditText mEnabledTextInput;
+  EditText mDisabledTextInput;
+  EditText mPressedTextInput;
   CheckBox mCheckbox;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,9 @@ public class MainActivity extends Activity {
     mEnabledInput = (EditText) findViewById(R.id.btn_1_enabled);
     mPressedInput = (EditText) findViewById(R.id.btn_1_disabled);
     mDisabledInput = (EditText) findViewById(R.id.btn_1_pressed);
+    mEnabledTextInput = (EditText) findViewById(R.id.btn_1_enabled_text);
+    mPressedTextInput = (EditText) findViewById(R.id.btn_1_disabled_text);
+    mDisabledTextInput = (EditText) findViewById(R.id.btn_1_pressed_text);
     mCheckbox = (CheckBox) findViewById(R.id.btn_1_state);
 
     mCheckbox.setChecked(true);
@@ -86,16 +92,24 @@ public class MainActivity extends Activity {
     } catch (IllegalArgumentException e) { // can't parse color
       Toast.makeText(this, e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
       return;
-    } catch (Exception e) { // catch something I might have missed
+    } catch (Exception e) { // catch something I might have missed    `
       e.printStackTrace();
       Toast.makeText(this, e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
       return;
     }
 
-    state.addState(new int[] { -android.R.attr.state_pressed, android.R.attr.state_enabled }, new ColorDrawable(enabledColor));
-    state.addState(new int[] { android.R.attr.state_pressed, android.R.attr.state_enabled }, new ColorDrawable(pressedColor));
-    state.addState(new int[] { -android.R.attr.state_enabled }, new ColorDrawable(disabledColor));
 
-    mTestBtn.setBackground(state);
+    StateListDrawable backgroundDrawable = createDrawable(enabledColor, pressedColor, disabledColor);
+
+    mTestBtn.setBackground(backgroundDrawable);
+  }
+
+  private StateListDrawable createDrawable(int enabled, int pressed, int disabled) {
+    StateListDrawable stateListDrawable = new StateListDrawable();
+    stateListDrawable.addState(new int[] { -android.R.attr.state_pressed, android.R.attr.state_enabled }, new ColorDrawable(enabled));
+    stateListDrawable.addState(new int[] { android.R.attr.state_pressed, android.R.attr.state_enabled }, new ColorDrawable(pressed));
+    stateListDrawable.addState(new int[] { -android.R.attr.state_enabled }, new ColorDrawable(disabled));
+
+    return stateListDrawable;
   }
 }
