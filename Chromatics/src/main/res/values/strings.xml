@@ -9,4 +9,7 @@
     <string name="save_btn_text">save</string>
     <string name="blank_input_message">can\'t save blank colors</string>
     <string name="checkbox_label_text">test button enabled?</string>
+    <string name="screen_density">screen density</string>
+    <string name="screen_width">screen width</string>
+    <string name="screen_height">screen height</string>
 </resources>

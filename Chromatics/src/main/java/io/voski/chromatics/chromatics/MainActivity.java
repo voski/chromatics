@@ -1,11 +1,13 @@
 package io.voski.chromatics.chromatics;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.StateSet;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +18,11 @@ import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends Activity {
   Button mTestBtn;
@@ -27,10 +33,16 @@ public class MainActivity extends Activity {
   EditText mDisabledTextInput;
   EditText mPressedTextInput;
   CheckBox mCheckbox;
+  TextView mDensityText;
+  TextView mHeightText;
+  TextView mWidthText;
+
+  private Map<Integer, String> densityMap = new HashMap<Integer, String>();
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    buildDensityMap();
 
     mTestBtn = (Button) findViewById(R.id.btn_1);
     mEnabledInput = (EditText) findViewById(R.id.btn_1_enabled);
@@ -40,6 +52,9 @@ public class MainActivity extends Activity {
     mPressedTextInput = (EditText) findViewById(R.id.btn_1_pressed_text);
     mDisabledTextInput = (EditText) findViewById(R.id.btn_1_disabled_text);
     mCheckbox = (CheckBox) findViewById(R.id.btn_1_state);
+    mDensityText = (TextView) findViewById(R.id.density_text_view);
+    mHeightText = (TextView) findViewById(R.id.height_text_view);
+    mWidthText = (TextView) findViewById(R.id.width_text_view);
 
     mCheckbox.setChecked(true);
     mCheckbox.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
@@ -48,6 +63,10 @@ public class MainActivity extends Activity {
         mTestBtn.setEnabled(isChecked);
       }
     });
+
+    mDensityText.setText(getDensityString());
+    mHeightText.setText(String.valueOf(getHeight()));
+    mWidthText.setText(String.valueOf(getWidth()));
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -92,7 +111,7 @@ public class MainActivity extends Activity {
     } catch (IllegalArgumentException e) { // can't parse color
       Toast.makeText(this, e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
       return;
-    } catch (Exception e) { // catch something I might have missed    `
+    } catch (Exception e) { // catch something I might have missed
       e.printStackTrace();
       Toast.makeText(this, e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
       return;
@@ -104,6 +123,29 @@ public class MainActivity extends Activity {
     mTestBtn.setBackground(backgroundDrawable);
   }
 
+  public int getDensity() {
+    return getResources().getDisplayMetrics().densityDpi;
+  }
+
+  public String getDensityString() {
+    int density = getDensity();
+    String result = "UNKOWN";
+
+    if (densityMap.containsKey(density)) {
+      result = densityMap.get(density);
+    }
+
+    return result;
+  }
+
+  private void buildDensityMap() {
+    this.densityMap.put(DisplayMetrics.DENSITY_LOW, "LDPI");
+    this.densityMap.put(DisplayMetrics.DENSITY_MEDIUM, "MDPI");
+    this.densityMap.put(DisplayMetrics.DENSITY_HIGH, "HDPI");
+    this.densityMap.put(DisplayMetrics.DENSITY_XHIGH, "XHDPI");
+    this.densityMap.put(DisplayMetrics.DENSITY_TV, "TVDPI");
+  }
+
   private StateListDrawable createDrawable(int enabled, int pressed, int disabled) {
     StateListDrawable stateListDrawable = new StateListDrawable();
     stateListDrawable.addState(new int[] { -android.R.attr.state_pressed, android.R.attr.state_enabled }, new ColorDrawable(enabled));
@@ -111,5 +153,13 @@ public class MainActivity extends Activity {
     stateListDrawable.addState(new int[] { -android.R.attr.state_enabled }, new ColorDrawable(disabled));
 
     return stateListDrawable;
+  }
+
+  private int getWidth() {
+   return getWindowManager().getDefaultDisplay().getWidth();
+  }
+
+  private int getHeight() {
+    return getWindowManager().getDefaultDisplay().getHeight();
   }
 }
